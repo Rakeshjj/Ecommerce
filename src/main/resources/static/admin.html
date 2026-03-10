@@ -111,7 +111,16 @@ body:formData
 })
 .then(res=>res.json())
 .then(data=>{
+
 document.getElementById("msg").innerText="Product Created Successfully";
+
+
+document.getElementById("name").value="";
+document.getElementById("price").value="";
+document.getElementById("sku").value="";
+document.getElementById("description").value="";
+document.getElementById("image").value="";
+
 })
 .catch(err=>console.log(err));
 
