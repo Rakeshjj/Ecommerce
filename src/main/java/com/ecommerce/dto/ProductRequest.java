@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotNull;
 
 public class ProductRequest {
 
-	@NotBlank
+	@NotBlank(message = "Name is required")
 	private String name;
 
+	@NotBlank
 	private String description;
 
 	@NotNull
