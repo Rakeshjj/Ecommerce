@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Admin Product Management</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+width:350px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input, textarea{
+width:94%;
+padding:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:14px;
+}
+
+textarea{
+resize:none;
+height:80px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+#msg{
+margin-top:15px;
+text-align:center;
+color:green;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Create Product</h2>
+
+<input type="text" id="name" placeholder="Product Name">
+
+<input type="number" id="price" placeholder="Price">
+
+<input type="text" id="sku" placeholder="SKU">
+
+<input type="file" id="image">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<button onclick="createProduct()">Create Product</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+
+function createProduct(){
+
+let formData = new FormData();
+
+formData.append("name", document.getElementById("name").value);
+formData.append("description", document.getElementById("description").value);
+formData.append("price", document.getElementById("price").value);
+formData.append("sku", document.getElementById("sku").value);
+formData.append("availability", true);
+formData.append("image", document.getElementById("image").files[0]);
+
+fetch("/api/admin/products",{
+method:"POST",
+body:formData
+})
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("msg").innerText="Product Created Successfully";
+})
+.catch(err=>console.log(err));
+
+}
+
+</script>
+
+</body>
+</html>

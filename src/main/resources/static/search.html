@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Product Search</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+margin:20px;
+}
+
+.search-box{
+margin-bottom:20px;
+}
+
+#products{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.product{
+border:1px solid #ddd;
+padding:15px;
+width:220px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:5px;
+}
+
+.product h3{
+margin:10px 0 5px;
+}
+
+.price{
+font-weight:bold;
+color:green;
+}
+
+.view-btn{
+display:inline-block;
+margin-top:10px;
+padding:6px 10px;
+background:#007bff;
+color:white;
+text-decoration:none;
+border-radius:4px;
+}
+
+.view-btn:hover{
+background:#0056b3;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Product Search</h2>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search products">
+<button onclick="searchProducts()">Search</button>
+</div>
+
+<div id="products"></div>
+
+<script>
+
+	function searchProducts(){
+
+	let keyword = document.getElementById("searchInput").value;
+
+	
+
+	fetch(`/api/products?q=${keyword}&page=0`)
+	.then(res => res.json())
+	.then(response => {
+
+	let products = response.content;
+
+	let html = "";
+
+	products.forEach(product => {
+
+	html += `
+	<div class="product">
+
+	<img src="http://localhost:8080${product.imageUrl}" />
+
+	<h3>${product.name}</h3>
+
+	<p>${product.description}</p>
+
+	<p class="price">₹${product.price}</p>
+
+	<a class="view-btn" href="product.html?id=${product.productId}">
+	View Details
+	</a>
+
+	</div>
+	`;
+
+	});
+document.getElementById("products").innerHTML = html;
+
+})
+.catch(error=>{
+console.log("Error:",error);
+});
+
+}
+
+window.onload=function(){
+searchProducts();
+}
+
+</script>
+
+</body>
+</html>
