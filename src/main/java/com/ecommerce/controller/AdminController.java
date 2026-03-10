@@ -72,4 +72,8 @@ public class AdminController {
 		return ResponseEntity.ok(products);
 	}
 
+	@GetMapping("/get")
+	public String get() {
+		return "Hello";
+	}
 }
