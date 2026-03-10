@@ -2,8 +2,11 @@ FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-COPY target/Ecommerce.jar Ecommerce.jar
+# Copy project files
+COPY . .
 
-EXPOSE 8080
+# Build the jar
+RUN ./mvnw clean package -DskipTests
 
-ENTRYPOINT ["java","-jar","Ecommerce.jar"]
+# Run the application
+CMD ["java", "-jar", "target/*.jar"]
