@@ -59,6 +59,15 @@ button:hover{
 background:#0056b3;
 }
 
+.search-btn{
+margin-top:10px;
+background:#28a745;
+}
+
+.search-btn:hover{
+background:#1e7e34;
+}
+
 #msg{
 margin-top:15px;
 text-align:center;
@@ -88,6 +97,8 @@ font-weight:bold;
 
 <button onclick="createProduct()">Create Product</button>
 
+<button class="search-btn" onclick="goToSearch()">View Products</button>
+
 <p id="msg"></p>
 
 </div>
@@ -114,7 +125,6 @@ body:formData
 
 document.getElementById("msg").innerText="Product Created Successfully";
 
-
 document.getElementById("name").value="";
 document.getElementById("price").value="";
 document.getElementById("sku").value="";
@@ -124,6 +134,10 @@ document.getElementById("image").value="";
 })
 .catch(err=>console.log(err));
 
+}
+
+function goToSearch(){
+window.location.href="search.html";
 }
 
 </script>
