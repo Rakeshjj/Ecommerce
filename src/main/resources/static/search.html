@@ -9,11 +9,76 @@
 
 body{
 font-family: Arial, sans-serif;
-margin:20px;
+margin:0;
+background:#f5f5f5;
 }
 
-.search-box{
-margin-bottom:20px;
+/* TOP DEAL BAR */
+
+.top-bar{
+background:#a2333a;
+color:white;
+text-align:center;
+padding:8px;
+font-weight:bold;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 40px;
+background:white;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#a2333a;
+}
+
+.search-bar{
+flex:1;
+margin:0 40px;
+}
+
+.search-bar input{
+width:100%;
+padding:10px;
+border-radius:20px;
+border:1px solid #ccc;
+}
+
+.icons{
+display:flex;
+gap:20px;
+font-size:18px;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:white;
+display:flex;
+gap:25px;
+padding:12px 40px;
+border-top:1px solid #eee;
+border-bottom:1px solid #eee;
+}
+
+.navbar a{
+text-decoration:none;
+color:#333;
+font-weight:500;
+}
+
+/* PRODUCT GRID */
+
+.container{
+padding:30px 40px;
 }
 
 #products{
@@ -73,96 +138,143 @@ border-radius:4px;
 background:#0056b3;
 }
 
+#pagination{
+margin-top:20px;
+text-align:center;
+}
+
+#pagination button{
+margin:5px;
+padding:8px 12px;
+border:none;
+background:#007bff;
+color:white;
+border-radius:4px;
+cursor:pointer;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h2>Product Search</h2>
-
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="Search products">
-<button onclick="searchProducts()">Search</button>
+<!-- DEAL BAR -->
+<div class="top-bar">
+Ecommerce
 </div>
 
+<!-- HEADER -->
+<div class="header">
+
+<div class="logo">
+MyShop
+</div>
+
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Search products">
+</div>
+
+<div class="icons">
+👤 🛒 ❤️
+</div>
+
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<a href="#">What's New</a>
+<a href="#">Electronics</a>
+<a href="#">Clothing</a>
+<a href="#">Home</a>
+<a href="#">Books</a>
+<a href="#">Fitness</a>
+<a href="#">Bestsellers</a>
+<a href="#">Sale</a>
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="container">
+
 <div id="products"></div>
-<div id="pagination" style="margin-top:20px;"></div>
+
+<div id="pagination"></div>
+
+</div>
 
 <script>
-	let currentPage = 0;
 
-	function searchProducts(page = 0){
+let currentPage = 0;
 
-	currentPage = page;
+function searchProducts(page = 0){
 
-	let keyword = document.getElementById("searchInput").value;
+currentPage = page;
 
-	fetch(`/api/products?q=${keyword}&page=${page}`)
-	.then(res => res.json())
-	.then(response => {
+let keyword = document.getElementById("searchInput").value;
 
-	let products = response.content;
+fetch(`/api/products?q=${keyword}&page=${page}`)
+.then(res => res.json())
+.then(response => {
 
-	let html = "";
+let products = response.content;
 
-	products.forEach(product => {
+let html = "";
 
-	html += `
-	<div class="product">
+products.forEach(product => {
 
-		<div class="product-img">
-		<img src="https://ecommerce-dhqt.onrender.com${product.imageUrl}" />
-		</div>
+html += `
+<div class="product">
 
-	<h3>${product.name}</h3>
+<div class="product-img">
+<img src="https://ecommerce-dhqt.onrender.com${product.imageUrl}" />
+</div>
 
-	<p>${product.description}</p>
+<h3>${product.name}</h3>
 
-	<p class="price">₹${product.price}</p>
+<p>${product.description}</p>
 
-	<a class="view-btn" href="product.html?id=${product.productId}">
-	View Details
-	</a>
+<p class="price">₹${product.price}</p>
 
-	</div>
-	`;
+<a class="view-btn" href="product.html?id=${product.productId}">
+View Details
+</a>
 
-	});
+</div>
+`;
 
-	document.getElementById("products").innerHTML = html;
+});
 
-	renderPagination(response.totalPages);
+document.getElementById("products").innerHTML = html;
 
-	})
-	.catch(error=>{
-	console.log("Error:",error);
-	});
+renderPagination(response.totalPages);
 
-	}
+})
+.catch(error=>{
+console.log("Error:",error);
+});
 
-	function renderPagination(totalPages){
+}
 
-	let html="";
+function renderPagination(totalPages){
 
-	for(let i=0;i<totalPages;i++){
+let html="";
 
-	html += `
-	<button onclick="searchProducts(${i})"
-	style="margin:5px;padding:6px 12px">
-	${i+1}
-	</button>
-	`;
+for(let i=0;i<totalPages;i++){
 
-	}
+html += `
+<button onclick="searchProducts(${i})">${i+1}</button>
+`;
 
-	document.getElementById("pagination").innerHTML = html;
+}
 
-	}
+document.getElementById("pagination").innerHTML = html;
 
-	window.onload=function(){
-	searchProducts();
-	}	 	
+}
+
+window.onload=function(){
+searchProducts();
+}
 
 </script>
 
